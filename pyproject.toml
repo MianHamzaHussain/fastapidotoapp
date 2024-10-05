@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "todos"
+version = "0.1.0"
+description = ""
+authors = ["Hamza <mianhamzahussain@gmail.comm>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.0"
+pytest = "^8.3.3"
+httpx = "^0.27.2"
+uvicorn = {extras = ["standard"], version = "^0.31.0"}
+pydantic = "^2.9.2"
+sqlmodel = "^0.0.22"
+psycopg2 = "^2.9.9"
+
+[tool.poetry.scripts]
+dev="todos.main:start"
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

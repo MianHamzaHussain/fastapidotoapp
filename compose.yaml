@@ -1,0 +1,37 @@
+name: todoapi
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - postgres_db
+    ports:
+      - "${API_PORT}:8000"  # Maps API_PORT from your environment to port 8000 in the container
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres_db:${DB_PORT}/${POSTGRES_DB}
+    networks:
+      - my-api-net  # Connects to the custom network
+
+  postgres_db:
+    image: postgres:latest
+    restart: always
+    container_name: PostgresCont
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - '${DB_PORT}:5432'
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+    networks:
+      - my-api-net  # Connects to the custom network
+
+volumes:
+  postgres_db:
+    driver: local
+
+networks:
+  my-api-net:  # Define the custom network
