@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, create_engine
+from sqlmodel import SQLModel, create_engine, Session
 import os
 from sqlalchemy.engine import Engine
 from typing import Optional
@@ -25,3 +25,13 @@ def create_tables() -> None:
             print("Tables created successfully.")
     except Exception as e:
         print(f"create_tables Error: {e}") 
+
+def get_session() -> Session:
+    if not engine:
+        raise Exception("Database engine is not initialized")
+    
+    session = Session(engine)
+    try:
+        yield session
+    finally:
+        session.close()
